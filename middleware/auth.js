@@ -7,11 +7,11 @@ var config = require("../config/secret");
 var ip = require("ip");
 
 //controller untuk register
-exports.regigtrasi = function (req, res) {
+exports.registrasi = function(req, res) {
   var post = {
-    username: res.body.username,
-    email: res.body.email,
-    password: md5(res.body.password),
+    username: req.body.username,
+    email: req.body.email,
+    password: md5(req.body.password),
     role: req.body.role,
     tanggal_daftar: new Date(),
   };
@@ -19,9 +19,9 @@ exports.regigtrasi = function (req, res) {
   var query = "SELECT email FROM ?? WHERE ??";
   var table = ["user", "email", post.email];
 
-  query = mysql.format(query.table);
+  query = mysql.format(query,table);
 
-  connection.query(query, function (error) {
+  connection.query(query, function (error, rows) {
     if (error) {
       console.log(error);
     } else {
